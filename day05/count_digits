@@ -1,0 +1,16 @@
+def count_digits(numbers):
+    counts = {str(d): 0 for d in range(10)}
+    for num in numbers:
+        for digit in str(num):
+            if digit.isdigit():
+                counts[digit]+=1
+                print("man")
+    return counts 
+
+def main():
+    numbers = [1,23,45,66,78,90,564756,902] 
+    counts = count_digits(numbers)  
+
+    for digit in map(str,range(10)):
+        print(f"{digit}{counts[digit]}")  
+main()        
