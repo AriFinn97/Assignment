@@ -1,1 +1,9 @@
+text = input("Enter a password: ")
+new_text = []
 
+for c in text:
+    shifted_char = chr(ord(c) + 13)  
+    new_text.append(shifted_char)
+
+encoded_password = ''.join(new_text)
+print("Encoded password:", encoded_password)
