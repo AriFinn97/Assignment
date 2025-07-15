@@ -1,0 +1,17 @@
+text = ["""Lorem ipsum dolor qui ad labor ad labor sint dolor  tempor incididunt ut labor ad dolore lorem ad Ut
+        labor ad dolor lorem qui ad ut labor  ut ad commodo commodo Lorem ad dolor in reprehenderit in lorem ut labor
+         ad dolore eu in labor dolor sint occaecat ad labor proident sint in in qui labor ad dolor ad in ad labor"""]
+
+words = text[0].split(" ")
+# print(new_text)
+word_counts = {}
+for word in words:
+    word_lower = word.lower() 
+    if word_lower in word_counts:
+        word_counts[word_lower] += 1
+    else:
+        word_counts[word_lower] = 1
+output = [f"{word:<20}{count:>3}" for word, count in sorted(word_counts.items())]
+for line in output:
+    print(line)
+
