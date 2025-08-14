@@ -1,0 +1,47 @@
+from datetime import datetime, timedelta
+import os
+
+def minutes_between(start, end):
+    fmt = "%H:%M"
+    start_dt = datetime.strptime(start, fmt)
+    end_dt = datetime.strptime(end, fmt)
+    # Handle crossing midnight
+    if end_dt < start_dt:
+        end_dt += timedelta(days=1)
+    return int((end_dt - start_dt).total_seconds() // 60)
+
+def add_time(report, label, minutes):
+    report[label] = report.get(label, 0) + minutes
+
+# 1. Read and clean all lines
+with open(r"C:\Users\aaronf\python\timelog.log", encoding="utf-8") as f:
+    lines = [line.strip() for line in f if line.strip()]
+
+report = {}
+
+# 2. Open output file ONCE to write both the detailed log and totals
+with open("timelog.txt", "w", encoding="utf-8") as out:
+    i = 0
+    while i < len(lines) - 1:
+        start_line = lines[i]
+        end_line = lines[i + 1]
+
+        start_time, label = start_line.split(" ", 1)
+        end_time = end_line.split(" ", 1)[0]
+
+        duration = minutes_between(start_time, end_time)
+        add_time(report, label, duration)
+
+        out.write(f"{start_time}-{end_time} {label}\n")
+
+        i += 2  # move in pairs, not overlapping
+
+    # Totals section
+    out.write("\n--- Totals ---\n")
+    for label, minutes in report.items():
+        hours = minutes // 60
+        mins_left = minutes % 60
+        out.write(f"{label}: {minutes} minutes ({hours}h {mins_left}m)\n")
+
+# Print where the file was saved
+print(f"File written to: {os.path.abspath('timelog.txt')}")
